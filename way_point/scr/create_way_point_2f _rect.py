@@ -21,7 +21,7 @@ def get_data_to_df(datapath):
     yaw_list =[]
     flag_list =[]
     arc_dir_list = []
-    crossPi_list = []
+    # crossPi_list = []
     for index,line in enumerate(ffile.readlines()):
         if index == 0:
             continue
@@ -32,7 +32,7 @@ def get_data_to_df(datapath):
         
         # 下面1行代码为了满足旋转的需求
         # one_line = rotate(one_line)
-        x,y,z,yaw,falg,arc_dir,crossPi = one_line
+        x,y,z,yaw,falg,arc_dir = one_line
         # velocity = 3  # 将 直线速度 修改为3
         x_list.append(x)
         y_list.append(y)
@@ -40,7 +40,7 @@ def get_data_to_df(datapath):
         yaw_list.append(yaw)
         flag_list.append(falg)
         arc_dir_list.append(arc_dir)
-        crossPi_list.append(crossPi)
+        # crossPi_list.append(crossPi)
         
     # 将各列元素合并，组成一个DataFrame
     ddict = {'x' : x_list,
@@ -48,8 +48,7 @@ def get_data_to_df(datapath):
              'z' : z_list,
              'yaw' : yaw_list,
              'falg' : flag_list,
-             'arc_dir' : arc_dir_list,
-             'crossPi' : crossPi_list}
+             'arc_dir' : arc_dir_list}
     para_df = pd.DataFrame(ddict)
     
     return para_df  
@@ -112,7 +111,7 @@ def generate_arc_point_group(centerpoint,radius,theta_start,theta_end):
         y_list.append(y)
     return x_list, y_list, n
 # 生成转弯waypionts的dataframe
-def generate_arc_df(before_start, start, end, after_end, arc_dir, crossPi):
+def generate_arc_df(before_start, start, end, after_end, arc_dir):
     li = [before_start[:2], start[:2], end[:2], after_end[:2]]
     center_radius_startEndAngle = util.get_center_radius_startEndAngle(li)
     center = center_radius_startEndAngle[0]
@@ -164,8 +163,8 @@ def get_all_list(para_df):
             before_start = list(para_df.iloc[index-1])
             after_end = list(para_df.iloc[index + 2])
             arc_dir = start[5]
-            crossPi = start[6]
-            line_df = generate_arc_df(before_start, start, end, after_end, arc_dir, crossPi)
+            # crossPi = start[6]
+            line_df = generate_arc_df(before_start, start, end, after_end, arc_dir)
         else:
             line_df = generate_line_df(start, end)
 
@@ -179,7 +178,7 @@ def save_df2csv(df, csv_path):
 
 def run_main_stair():
 
-    datapath = '/home/zg/PycharmProjects/proj1/wayPoint/way_point/data/data_test_8c'
+    datapath = '/home/zg/PycharmProjects/proj1/wayPoint/way_point/data/data_test_8c_noPi'
     para_df1 = get_data_to_df(datapath)
     all_list = get_all_list(para_df1)
 
