@@ -122,13 +122,17 @@ def generate_arc_df(before_start, start, end, after_end, arc_dir, crossPi):
     # 如果圆弧way point方向是顺时针
     if 1 == arc_dir:
         # 如果圆弧跨越了180度
-        if 1 == crossPi:
+        # if 1 == crossPi:
+        #     print('顺时针 跨越180度 trajectory_start_end为:', trajectory_start_end)
+        if trajectory_start_end[0] < trajectory_start_end[1]:
             trajectory_start_end = [trajectory_start_end[0] + 3.14*2, trajectory_start_end[1]]
         direction_start_end = [trajectory_start_end[0] - 1.57, trajectory_start_end[1] - 1.57]
     # 如果圆弧way point方向是逆时针
     if 0 == arc_dir:
         # 如果圆弧跨越了180度
-        if 1 == crossPi:
+        # if 1 == crossPi:
+        #     print('逆时针 跨越180度 trajectory_start_end为:', trajectory_start_end)
+        if trajectory_start_end[0] > trajectory_start_end[1]:
             trajectory_start_end = [trajectory_start_end[0], trajectory_start_end[1] + 3.14*2]
         direction_start_end = [trajectory_start_end[0]+1.57, trajectory_start_end[1]+1.57]
 
@@ -175,13 +179,13 @@ def save_df2csv(df, csv_path):
 
 def run_main_stair():
 
-    datapath = '/home/zg/PycharmProjects/proj1/way_point/data/data_test_6c'
+    datapath = '/home/zg/PycharmProjects/proj1/wayPoint/way_point/data/data_test_8c'
     para_df1 = get_data_to_df(datapath)
     all_list = get_all_list(para_df1)
 
     df_concat = pd.concat(all_list)  # pd.concat是两个dataframe上下拼接成一个dataframe
 
-    csv_path = '/home/zg/PycharmProjects/proj1/way_point/data/way_point_test_6c.csv'
+    csv_path = '/home/zg/PycharmProjects/proj1/wayPoint/way_point/data/way_point_test_8c.csv'
     save_df2csv(df_concat, csv_path)
 
 
